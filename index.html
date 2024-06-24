@@ -3,25 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>割り勘計算アプリ</title>
+    <title>傾斜付き割り勘計算アプリ</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
 <body>
     <div id="app">
-        <h2>割り勘計算アプリ</h2>
+        <h2>傾斜付き割り勘計算アプリ</h2>
         <label for="total">合計金額:</label>
         <input type="number" id="total" v-model.number="total">
 
         <label for="people">人数:</label>
         <input type="number" id="people" v-model.number="numberOfPeople">
 
+        <div v-if="numberOfPeople && numberOfPeople > 0">
+            <h3>各人の支払い金額:</h3>
+            <ul>
+                <li v-for="(person, index) in people" :key="index">
+                    人{{ index + 1 }}:
+                    <input type="number" v-model.number="person.amount"> 円
+                </li>
+            </ul>
+        </div>
+
         <button @click="calculateShares">計算する</button>
 
         <div v-if="showResults">
-            <h3>各人の支払い金額:</h3>
+            <h3>支払い金額の調整後:</h3>
             <ul>
-                <li v-for="(share, index) in shares" :key="index">
-                    人{{ index + 1 }}: {{ share }} 円
+                <li v-for="(person, index) in people" :key="index">
+                    人{{ index + 1 }}: {{ person.finalAmount }} 円
                 </li>
             </ul>
         </div>
@@ -33,14 +43,43 @@
             data: {
                 total: null,
                 numberOfPeople: null,
-                shares: [],
+                people: [],
                 showResults: false
             },
             methods: {
                 calculateShares() {
                     if (this.total && this.numberOfPeople) {
-                        const amountPerPerson = this.total / this.numberOfPeople;
-                        this.shares = Array(this.numberOfPeople).fill(amountPerPerson);
+                        // 初期化
+                        this.people = [];
+
+                        // 初期値を設定
+                        for (let i = 0; i < this.numberOfPeople; i++) {
+                            this.people.push({
+                                amount: null, // 各人の初期支払い金額
+                                finalAmount: null // 調整後の支払い金額
+                            });
+                        }
+
+                        // 通常の割り勘を計算
+                        const normalAmountPerPerson = this.total / this.numberOfPeople;
+
+                        // 各人の初期支払い金額を設定
+                        this.people.forEach(person => {
+                            person.amount = normalAmountPerPerson;
+                        });
+
+                        // ここで傾斜をつけた計算を行う（例：人1が倍、人2が半分など）
+                        // ここでは簡単な例として、人1が倍額、人2が半分とする
+                        if (this.numberOfPeople >= 2) {
+                            this.people[0].finalAmount = this.people[0].amount * 2; // 人1が倍額
+                            this.people[1].finalAmount = this.people[1].amount / 2; // 人2が半額
+                        }
+
+                        // 残りの人は通常の割り勘金額とする
+                        for (let i = 2; i < this.numberOfPeople; i++) {
+                            this.people[i].finalAmount = normalAmountPerPerson;
+                        }
+
                         this.showResults = true;
                     } else {
                         alert('合計金額と人数を入力してください。');
