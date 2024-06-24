@@ -47,6 +47,19 @@
                 margin-bottom: 0;
             }
         }
+        @media (max-width: 599px) {
+            .input-container label,
+            .input-container input[type="text"],
+            .input-container input[type="number"],
+            .input-container select,
+            .input-container button {
+                flex: 1 0 100%;
+            }
+            .input-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
