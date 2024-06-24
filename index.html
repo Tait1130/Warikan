@@ -7,27 +7,45 @@
     <style>
         .input-container {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             margin-bottom: 8px;
         }
         .input-container label {
-            flex: 1;
+            flex: 1 0 100px;
             margin-right: 10px;
         }
-        .input-container input[type="text"] {
-            width: 120px;
-        }
+        .input-container input[type="text"],
+        .input-container input[type="number"],
         .input-container select {
-            width: 120px;
+            flex: 1 0 calc(100% - 110px);
+            margin-bottom: 8px;
         }
         .input-container button {
-            margin-left: 10px;
+            flex: 1 0 100%;
+            margin-bottom: 8px;
         }
         .button-container {
             margin-top: 10px;
         }
         .button-container button {
             margin-right: 10px;
+            margin-bottom: 8px;
+        }
+        @media (min-width: 600px) {
+            .input-container {
+                flex-wrap: nowrap;
+            }
+            .input-container input[type="text"],
+            .input-container input[type="number"],
+            .input-container select {
+                flex: 1 0 120px;
+                margin-bottom: 0;
+            }
+            .input-container button {
+                flex: 0 0 auto;
+                margin-bottom: 0;
+            }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -35,6 +53,12 @@
 <body>
     <div id="app">
         <h2>傾斜付き割り勘計算アプリ</h2>
+
+        <!-- 合計金額の入力 -->
+        <div class="input-container">
+            <label>合計金額:</label>
+            <input type="number" v-model.number="total" placeholder="合計金額を入力">
+        </div>
 
         <!-- 傾斜モードの選択 -->
         <div class="input-container">
