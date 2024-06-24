@@ -35,29 +35,52 @@
 <body>
     <div id="app">
         <h2>傾斜付き割り勘計算アプリ</h2>
+
+        <!-- 傾斜モードの選択 -->
         <div class="input-container">
-            <label for="total">合計金額:</label>
-            <input type="number" id="total" v-model.number="total">
+            <label>傾斜モード:</label>
+            <select v-model="slopeMode">
+                <option value="numeric">数値入力型</option>
+                <option value="five-scale">五段階から選ぶ型</option>
+                <option value="manliness">男気型</option>
+            </select>
         </div>
 
+        <!-- 各参加者の入力フォーム -->
         <div v-for="(person, index) in people" :key="index" class="input-container">
             <label>参加者{{ index + 1 }}:</label>
             <input type="text" v-model="person.name" placeholder="名前" :value="'参加者' + (index + 1)">
-            <select v-model="person.multiplier">
-                <option value="1">通常</option>
-                <option value="0.5">半分</option>
-                <option value="2">倍</option>
-                <option value="0.8">20%減</option>
-                <option value="1.2">20%増</option>
-            </select>
+            <template v-if="slopeMode === 'numeric'">
+                <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
+            </template>
+            <template v-else-if="slopeMode === 'five-scale'">
+                <select v-model="person.multiplier">
+                    <option value="1">通常</option>
+                    <option value="0.5">半分</option>
+                    <option value="2">倍</option>
+                    <option value="0.8">20%減</option>
+                    <option value="1.2">20%増</option>
+                </select>
+            </template>
+            <template v-else-if="slopeMode === 'manliness'">
+                <select v-model="person.multiplier">
+                    <option value="1">普通</option>
+                    <option value="0.5">ふつう</option>
+                    <option value="2">むっちゃ</option>
+                    <option value="0.8">ちょい減</option>
+                    <option value="1.2">ちょい増</option>
+                </select>
+            </template>
             <button @click="removePersonForm(index)">削除</button>
         </div>
 
+        <!-- ボタンコンテナ -->
         <div class="button-container">
             <button @click="addPersonForm">参加者を追加する</button>
             <button @click="calculateShares">計算する</button>
         </div>
 
+        <!-- 結果表示 -->
         <div v-if="showResults">
             <h3>支払い金額の調整後:</h3>
             <ul>
@@ -74,7 +97,8 @@
             data: {
                 total: null,
                 people: [],
-                showResults: false
+                showResults: false,
+                slopeMode: 'numeric' // 初期値は数値入力型
             },
             methods: {
                 addPersonForm() {
