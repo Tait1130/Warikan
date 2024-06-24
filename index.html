@@ -14,8 +14,10 @@
             flex: 1;
             margin-right: 10px;
         }
-        .input-container input[type="text"], 
-        .input-container input[type="number"] {
+        .input-container input[type="text"] {
+            width: 120px;
+        }
+        .input-container select {
             width: 120px;
         }
         .input-container button {
@@ -39,15 +41,20 @@
         </div>
 
         <div v-for="(person, index) in people" :key="index" class="input-container">
-            <label v-if="index === 0">主債務者:</label>
-            <label v-else>参加者{{ index }}:</label>
+            <label>参加者{{ index + 1 }}:</label>
             <input type="text" v-model="person.name" placeholder="名前" :value="'参加者' + (index + 1)">
-            <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
+            <select v-model="person.multiplier">
+                <option value="1">通常</option>
+                <option value="0.5">半分</option>
+                <option value="2">倍</option>
+                <option value="0.8">20%減</option>
+                <option value="1.2">20%増</option>
+            </select>
             <button @click="removePersonForm(index)">削除</button>
         </div>
 
         <div class="button-container">
-            <button @click="addPersonForm">人を追加する</button>
+            <button @click="addPersonForm">参加者を追加する</button>
             <button @click="calculateShares">計算する</button>
         </div>
 
