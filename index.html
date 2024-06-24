@@ -22,8 +22,8 @@
             margin-bottom: 8px;
         }
         .input-container button {
-            flex: 1 0 100%;
-            margin-bottom: 8px;
+            flex: 0 0 auto;
+            margin-left: 10px;
         }
         .button-container {
             margin-top: 10px;
@@ -54,6 +54,7 @@
             .input-container select,
             .input-container button {
                 flex: 1 0 100%;
+                margin-bottom: 8px;
             }
             .input-container {
                 flex-direction: column;
@@ -86,18 +87,20 @@
         <!-- 各参加者の入力フォーム -->
         <div v-for="(person, index) in people" :key="index" class="input-container">
             <label>参加者{{ index + 1 }}:</label>
-            <input type="text" v-model="person.name" placeholder="名前" :value="'参加者' + (index + 1)">
-            <template v-if="slopeMode === 'numeric'">
-                <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
-            </template>
-            <template v-else-if="slopeMode === 'five-scale'">
-                <select v-model="person.multiplier">
-                    <option value="1">通常</option>
-                    <option value="0.5">半分</option>
-                    <option value="2">倍</option>
-                    <option value="0.8">20%減</option>
-                    <option value="1.2">20%増</option>
-                </select>
+            <input type="text" v-model="person.name" placeholder="名前">
+            <template v-if="slopeMode !== 'manliness'">
+                <template v-if="slopeMode === 'numeric'">
+                    <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
+                </template>
+                <template v-else-if="slopeMode === 'five-scale'">
+                    <select v-model="person.multiplier">
+                        <option value="1">通常</option>
+                        <option value="0.5">半分</option>
+                        <option value="2">倍</option>
+                        <option value="0.8">20%減</option>
+                        <option value="1.2">20%増</option>
+                    </select>
+                </template>
             </template>
             <button @click="removePersonForm(index)">削除</button>
         </div>
@@ -135,7 +138,7 @@
             methods: {
                 addPersonForm() {
                     this.people.push({
-                        name: '参加者' + (this.people.length + 1),
+                        name: '',
                         multiplier: 1
                     });
                 },
