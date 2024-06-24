@@ -5,56 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>傾斜付き割り勘計算アプリ</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff3e0;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            color: #5d4037;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #app {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            font-family: 'Georgia', serif;
+            text-align: center;
+            color: #d84315;
+        }
         .input-container {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
             margin-bottom: 8px;
         }
         .input-container label {
-            flex: 0 0 100px;
+            flex: 1 0 80px;
             margin-right: 10px;
+            font-weight: bold;
         }
         .input-container input[type="text"],
         .input-container input[type="number"],
         .input-container select {
-            flex: 1 1 120px;
+            flex: 1 1 60px;
             margin-bottom: 8px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         .input-container button {
-            flex: 0 0 auto;
             margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #d84315;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .input-container button:hover {
+            background-color: #bf360c;
         }
         .button-container {
             margin-top: 10px;
+            text-align: center;
         }
         .button-container button {
             margin-right: 10px;
-            margin-bottom: 8px;
+            padding: 10px 20px;
+            background-color: #d84315;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        @media (max-width: 599px) {
-            .input-container {
-                flex-direction: row;
-            }
-            .input-container label,
-            .input-container input[type="text"],
-            .input-container input[type="number"],
-            .input-container select,
-            .input-container button {
-                flex: 1 1 auto;
-                margin-bottom: 8px;
-            }
-            .input-container input[type="text"] {
-                flex: 1 1 100px;
-            }
-            .input-container input[type="number"],
-            .input-container select {
-                flex: 1 1 calc(30% - 10px);
-            }
-            .input-container button {
-                flex: 1 1 auto;
-                margin-left: 10px;
-            }
+        .button-container button:hover {
+            background-color: #bf360c;
+        }
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+        ul li {
+            background-color: #fff8e1;
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 4px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -121,7 +152,10 @@
             el: '#app',
             data: {
                 total: null,
-                people: [],
+                people: [
+                    { name: '参加者1', multiplier: 1 },
+                    { name: '参加者2', multiplier: 1 }
+                ],
                 showResults: false,
                 slopeMode: 'numeric', // 初期値は数値入力型
                 manlyIndex: 0 // 男気型で全額支払う人のインデックス
