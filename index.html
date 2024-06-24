@@ -12,14 +12,10 @@
         <label for="total">合計金額:</label>
         <input type="number" id="total" v-model.number="total">
 
-        <label for="people">人数:</label>
-        <input type="number" id="people" v-model.number="numberOfPeople">
-
         <button @click="addPersonForm">人を追加する</button>
 
         <div v-for="(person, index) in people" :key="index">
-            <label v-if="index === 0">主債務者:</label>
-            <label v-else>人{{ index }}:</label>
+            <label>人{{ index + 1 }}:</label>
             <input type="text" v-model="person.name" placeholder="名前">
             <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
             <button @click="removePersonForm(index)">削除</button>
@@ -42,7 +38,6 @@
             el: '#app',
             data: {
                 total: null,
-                numberOfPeople: null,
                 people: [],
                 showResults: false
             },
@@ -57,26 +52,25 @@
                     this.people.splice(index, 1);
                 },
                 calculateShares() {
-                    if (this.total && this.numberOfPeople && this.people.length > 0) {
+                    if (this.total && this.people.length > 0) {
+                        // 人数を更新
+                        this.numberOfPeople = this.people.length;
+
                         // 初期化
                         this.showResults = false;
 
                         // 通常の割り勘を計算
                         const normalAmountPerPerson = this.total / this.numberOfPeople;
 
-                        // 各人の初期支払い金額を設定
-                        this.people.forEach(person => {
-                            person.amount = normalAmountPerPerson;
-                        });
-
                         // 傾斜を適用した金額を計算
                         this.people.forEach(person => {
+                            person.amount = normalAmountPerPerson;
                             person.finalAmount = person.amount * person.multiplier;
                         });
 
                         this.showResults = true;
                     } else {
-                        alert('合計金額と人数を入力し、少なくとも1人の名前と傾斜率を入力してください。');
+                        alert('合計金額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
                     }
                 }
             }
