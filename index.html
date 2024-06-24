@@ -4,24 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>傾斜付き割り勘計算アプリ</title>
+    <style>
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .input-container label {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .input-container input[type="text"], 
+        .input-container input[type="number"] {
+            width: 120px;
+        }
+        .input-container button {
+            margin-left: 10px;
+        }
+        .button-container {
+            margin-top: 10px;
+        }
+        .button-container button {
+            margin-right: 10px;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
 <body>
     <div id="app">
         <h2>傾斜付き割り勘計算アプリ</h2>
-        <label for="total">合計金額:</label>
-        <input type="number" id="total" v-model.number="total">
+        <div class="input-container">
+            <label for="total">合計金額:</label>
+            <input type="number" id="total" v-model.number="total">
+        </div>
 
-        <button @click="addPersonForm">人を追加する</button>
-
-        <div v-for="(person, index) in people" :key="index">
-            <label>参加者{{ index + 1 }}:</label>
+        <div v-for="(person, index) in people" :key="index" class="input-container">
+            <label v-if="index === 0">主債務者:</label>
+            <label v-else>参加者{{ index }}:</label>
             <input type="text" v-model="person.name" placeholder="名前" :value="'参加者' + (index + 1)">
             <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
             <button @click="removePersonForm(index)">削除</button>
         </div>
 
-        <button @click="calculateShares">計算する</button>
+        <div class="button-container">
+            <button @click="addPersonForm">人を追加する</button>
+            <button @click="calculateShares">計算する</button>
+        </div>
 
         <div v-if="showResults">
             <h3>支払い金額の調整後:</h3>
