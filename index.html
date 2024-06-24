@@ -12,15 +12,14 @@
         <label for="total">合計金額:</label>
         <input type="number" id="total" v-model.number="total">
 
-        
+        <button @click="addPersonForm">人を追加する</button>
+
         <div v-for="(person, index) in people" :key="index">
-            <label>人{{ index + 1 }}:</label>
-            <input type="text" v-model="person.name" placeholder="名前">
+            <label>参加者{{ index + 1 }}:</label>
+            <input type="text" v-model="person.name" placeholder="名前" :value="'参加者' + (index + 1)">
             <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
             <button @click="removePersonForm(index)">削除</button>
         </div>
-        
-        <button @click="addPersonForm">人を追加する</button>
 
         <button @click="calculateShares">計算する</button>
 
@@ -45,7 +44,7 @@
             methods: {
                 addPersonForm() {
                     this.people.push({
-                        name: '',
+                        name: '参加者' + (this.people.length + 1),
                         multiplier: 1
                     });
                 },
@@ -55,13 +54,13 @@
                 calculateShares() {
                     if (this.total && this.people.length > 0) {
                         // 人数を更新
-                        this.numberOfPeople = this.people.length;
+                        const numberOfPeople = this.people.length;
 
                         // 初期化
                         this.showResults = false;
 
                         // 通常の割り勘を計算
-                        const normalAmountPerPerson = this.total / this.numberOfPeople;
+                        const normalAmountPerPerson = this.total / numberOfPeople;
 
                         // 傾斜を適用した金額を計算
                         this.people.forEach(person => {
