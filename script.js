@@ -9,6 +9,7 @@ new Vue({
   el: '#sample02',
   data: {
     num: '0'
+    w: '1'
   }
 });
 
