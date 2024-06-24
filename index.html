@@ -1,64 +1,53 @@
 <!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <script src="https://unpkg.com/vue@2.4.4/dist/vue.min.js"></script>
-  </head>
-  <body>
-    <h1>Vue入門</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>割り勘計算アプリ</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>割り勘計算アプリ</h2>
+        <label for="total">合計金額:</label>
+        <input type="number" id="total" v-model.number="total">
 
-    <div id="sample01">
-      <h2>サンプル01：v-text</h2>
-      <p>二重中括弧で変数を囲う：{{text}}</p>
-      <p>属性で変数を指定する：<span v-text="text"></span></p>
+        <label for="people">人数:</label>
+        <input type="number" id="people" v-model.number="numberOfPeople">
+
+        <button @click="calculateShares">計算する</button>
+
+        <div v-if="showResults">
+            <h3>各人の支払い金額:</h3>
+            <ul>
+                <li v-for="(share, index) in shares" :key="index">
+                    人{{ index + 1 }}: {{ share }} 円
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <div id="sample02">
-      <h2>サンプル02：v-model</h2>
-      <input v-model="num" type="number">
-      <input v-model="w" type="number">
-      <p>v-modelで指定した変数： {{num}}</p>
-      <p>v-modelで指定した変数： {{w}}</p>
-      <p>変数に対して2を掛ける： {{num * w}}</p>
-    </div>
-
-    <div id="sample03">
-      <h2>サンプル03：v-on</h2>
-      <input v-model="input" type="text">
-      <button v-on:click="output">入力文字列を反映</button>
-      <p>ボタンを押すと入力値をtext変数に代入：{{text}}</p>
-    </div>
-
-    <div id="sample04">
-      <h2>サンプル04：v-html</h2>
-      <div v-html="html"></div>
-    </div>
-
-    <div id="sample05">
-      <h2>サンプル05：v-show、v-if</h2>
-      <input type="checkbox" v-model="checked">
-      <p v-show="checked">v-showの属性を持つ要素</p>
-      <p v-if="checked">v-ifの属性を持つ要素</p>
-    </div>
-
-    <div id="sample06">
-      <h2>サンプル06：v-for</h2>
-      <ul>
-        <li v-for="item in items">{{item.content}}</li>
-      </ul>
-
-      <ul>
-        <li v-for="(item, index) in items">{{index + 1}}. {{item.content}}</li>
-      </ul>
-    </div>
-
-    <div id="sample07">
-      <h2>サンプル07：v-bind</h2>
-      <input type="radio" value="red" v-model="picked">赤色
-      <input type="radio" value="blue" v-model="picked">青色
-      <p v-bind:style="{color: picked}">サンプルテキスト</p>
-    </div>
-
-    <script src="script.js"></script>
-  </body>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                total: null,
+                numberOfPeople: null,
+                shares: [],
+                showResults: false
+            },
+            methods: {
+                calculateShares() {
+                    if (this.total && this.numberOfPeople) {
+                        const amountPerPerson = this.total / this.numberOfPeople;
+                        this.shares = Array(this.numberOfPeople).fill(amountPerPerson);
+                        this.showResults = true;
+                    } else {
+                        alert('合計金額と人数を入力してください。');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
 </html>
