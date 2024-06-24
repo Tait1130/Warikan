@@ -12,13 +12,13 @@
             margin-bottom: 8px;
         }
         .input-container label {
-            flex: 1 0 100px;
+            flex: 0 0 100px;
             margin-right: 10px;
         }
         .input-container input[type="text"],
         .input-container input[type="number"],
         .input-container select {
-            flex: 1 0 calc(100% - 150px);
+            flex: 1 1 120px;
             margin-bottom: 8px;
         }
         .input-container button {
@@ -32,33 +32,28 @@
             margin-right: 10px;
             margin-bottom: 8px;
         }
-        @media (min-width: 600px) {
-            .input-container {
-                flex-wrap: nowrap;
-            }
-            .input-container input[type="text"],
-            .input-container input[type="number"],
-            .input-container select {
-                flex: 1 0 120px;
-                margin-bottom: 0;
-            }
-            .input-container button {
-                flex: 0 0 auto;
-                margin-bottom: 0;
-            }
-        }
         @media (max-width: 599px) {
+            .input-container {
+                flex-direction: row;
+            }
             .input-container label,
             .input-container input[type="text"],
             .input-container input[type="number"],
             .input-container select,
             .input-container button {
-                flex: 1 0 100%;
+                flex: 1 1 auto;
                 margin-bottom: 8px;
             }
-            .input-container {
-                flex-direction: column;
-                align-items: flex-start;
+            .input-container input[type="text"] {
+                flex: 1 1 100px;
+            }
+            .input-container input[type="number"],
+            .input-container select {
+                flex: 1 1 calc(50% - 10px);
+            }
+            .input-container button {
+                flex: 1 1 auto;
+                margin-left: 10px;
             }
         }
     </style>
@@ -87,20 +82,16 @@
         <!-- 各参加者の入力フォーム -->
         <div v-for="(person, index) in people" :key="index" class="input-container">
             <label>参加者{{ index + 1 }}:</label>
-            <input type="text" v-model="person.name" placeholder="名前">
+            <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
             <template v-if="slopeMode !== 'manliness'">
-                <template v-if="slopeMode === 'numeric'">
-                    <input type="number" v-model.number="person.multiplier" placeholder="傾斜率">
-                </template>
-                <template v-else-if="slopeMode === 'five-scale'">
-                    <select v-model="person.multiplier">
-                        <option value="1">通常</option>
-                        <option value="0.5">半分</option>
-                        <option value="2">倍</option>
-                        <option value="0.8">20%減</option>
-                        <option value="1.2">20%増</option>
-                    </select>
-                </template>
+                <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率">
+                <select v-else-if="slopeMode === 'five-scale'" v-model="person.multiplier">
+                    <option value="1">通常</option>
+                    <option value="0.5">半分</option>
+                    <option value="2">倍</option>
+                    <option value="0.8">20%減</option>
+                    <option value="1.2">20%増</option>
+                </select>
             </template>
             <button @click="removePersonForm(index)">削除</button>
         </div>
@@ -138,7 +129,7 @@
             methods: {
                 addPersonForm() {
                     this.people.push({
-                        name: '',
+                        name: '参加者' + (this.people.length + 1),
                         multiplier: 1
                     });
                 },
