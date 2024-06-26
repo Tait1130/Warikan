@@ -198,7 +198,7 @@
                             // 傾斜を適用した金額を計算
                             this.people.forEach(person => {
                                 person.amount = normalAmountPerPerson;
-                                person.finalAmount = person.amount * (person.multiplier/multiplerSum);
+                                person.finalAmount = person.amount * person.multiplier* (this.people.length/multiplerSum);
                             });
                         }
 
