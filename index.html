@@ -91,6 +91,17 @@
             padding: 10px;
             border-radius: 4px;
         }
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffe;
+            border-top: 2px solid #d84315;
+            border-bottom: 2px solid #d84315;
+            text-align: center;
+        }
+        .underline {
+            text-decoration: underline;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
@@ -98,16 +109,24 @@
     <div id="app">
         <h2>傾斜付き割り勘計算</h2>
 
+        <!-- 集金額と残額の表示 -->
+        <div class="results">
+            <div v-if="showResults">
+                <p class="underline">集金額: {{ collectedAmount }} 円</p>
+                <p class="underline">残額: {{ remainingAmount }} 円</p>
+            </div>
+        </div>
+
         <!-- 合計金額の入力 -->
         <div class="input-container">
             <label>合計金額:</label>
-            <input type="number" v-model.number="total" placeholder="合計金額を入力"　min="0"　@change="handlePositiveInput($event, 'total', 0)">
+            <input type="number" v-model.number="total" placeholder="合計金額を入力" min="0" @change="handlePositiveInput($event, 'total', 0)">
         </div>
 
         <!-- 分割金額の最小単位の入力 -->
         <div class="input-container">
             <label>分割金額の最小単位:</label>
-            <input type="number" v-model.number="minUnit" placeholder="最小単位を入力"　min="1"　@change="handlePositiveInput($event, 'minUnit', 1)">
+            <input type="number" v-model.number="minUnit" placeholder="最小単位を入力" min="1" @change="handlePositiveInput($event, 'minUnit', 1)">
         </div>
 
         <!-- 傾斜モードの選択 -->
@@ -125,7 +144,7 @@
             <label>参加者{{ index + 1 }}:</label>
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
             <template v-if="slopeMode !== 'manliness'">
-                <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0"　@change="handlePositiveInputCopy($event, person, 0)">
+                <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0" @change="handlePositiveInputCopy($event, person, 0)">
                 <select v-else-if="slopeMode === 'five-scale'" v-model="person.multiplier">
                     <option :value="2">倍</option>
                     <option :value="1.2">20%増</option>
@@ -153,8 +172,6 @@
                 <li v-for="(person, index) in people" :key="index">
                     {{ person.name }}: {{ person.finalAmount }} 円
                 </li>
-                <li>集金額: {{ collectedAmount }} 円</li>
-                <li>残額: {{ remainingAmount }} 円</li>
             </ul>
         </div>
     </div>
