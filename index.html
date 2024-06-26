@@ -191,7 +191,7 @@
                         this[field] = min; // データバインディングもクリアする（任意の場合）
                     }
                 },
-                handlePositiveInput(event, index, field, min) {
+                handlePositiveInputCopy(event, index, field, min) {
                     if (event.target.value < min) {
                         event.target.value = min; // マイナス値はminにリセット
                         this.person[index][field] = min; // データバインディングもクリアする（任意の場合）
