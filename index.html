@@ -31,7 +31,9 @@
             font-family: 'Hiragino Mincho Bold', serif;
             text-align: center;
             color: #d84315;
-            /* font-size: 2em; 文字サイズを上げる */
+        }
+        h3 {
+            text-align: center;
         }
         .input-container {
             display: flex;
@@ -166,7 +168,7 @@
 
         <!-- 結果表示 -->
         <div v-if="showResults">
-            <h3>支払い金額の調整後:</h3>
+            <h3>▼支払い金額の調整結果▼</h3>
             
             <!-- 集金額と残額の表示 -->
             <div class="results" v-if="showResults" :class="{ 'show': showResults }">
