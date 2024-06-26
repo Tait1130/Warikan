@@ -104,6 +104,12 @@
             <input type="number" v-model.number="total" placeholder="合計金額を入力">
         </div>
 
+        <!-- 分割金額の最小単位の入力 -->
+        <div class="input-container">
+            <label>最小単位:</label>
+            <input type="number" v-model.number="minUnit" placeholder="最小単位を入力">
+        </div>
+
         <!-- 傾斜モードの選択 -->
         <div class="input-container">
             <label>傾斜入力モード:</label>
@@ -147,6 +153,8 @@
                 <li v-for="(person, index) in people" :key="index">
                     {{ person.name }}: {{ person.finalAmount }} 円
                 </li>
+                <li>集金額: {{ collectedAmount }} 円</li>
+                <li>残額: {{ remainingAmount }} 円</li>
             </ul>
         </div>
     </div>
@@ -156,13 +164,16 @@
             el: '#app',
             data: {
                 total: null,
+                minUnit: 1, // 初期値は1円
                 people: [
                     { name: '参加者1', multiplier: 1 },
                     { name: '参加者2', multiplier: 1 }
                 ],
                 showResults: false,
-                slopeMode: 'five-scale', // 初期値は数値入力型
-                manlyIndex: 0 // 男気型で全額支払う人のインデックス
+                slopeMode: 'five-scale', // 初期値は五段階選択
+                manlyIndex: 0, // 男気型で全額支払う人のインデックス
+                collectedAmount: 0, // 集金額
+                remainingAmount: 0 // 残額
             },
             methods: {
                 addPersonForm() {
@@ -181,6 +192,7 @@
 
                         // 初期化
                         this.showResults = false;
+                        this.collectedAmount = 0;
 
                         if (this.slopeMode === 'manliness') {
                             // 男気型の場合、ランダムに選ばれた1人が全額を支払う
@@ -189,17 +201,21 @@
                             // 通常の割り勘を計算
                             const normalAmountPerPerson = this.total / numberOfPeople;
 
-　　　　　　　　　　　　　　　                    　// 傾斜の合計
-                            let multiplerSum = 0;
+                            // 傾斜の合計
+                            let multiplierSum = 0;
                             this.people.forEach(person => {
-                                multiplerSum = multiplerSum + person.multiplier;
+                                multiplierSum += person.multiplier;
                             });
 
                             // 傾斜を適用した金額を計算
                             this.people.forEach(person => {
                                 person.amount = normalAmountPerPerson;
-                                person.finalAmount = person.amount * person.multiplier* (this.people.length/multiplerSum);
+                                person.finalAmount = Math.round(person.amount * person.multiplier * (this.people.length / multiplierSum) / this.minUnit) * this.minUnit;
+                                this.collectedAmount += person.finalAmount;
                             });
+
+                            // 残額を計算
+                            this.remainingAmount = this.total - this.collectedAmount;
                         }
 
                         this.showResults = true;
