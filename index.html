@@ -104,6 +104,22 @@
         .underline {
             text-decoration: underline;
         }
+        .amount-container {
+            display: flex;
+            justify-content: center;
+        }
+        .amount {
+            border: 2px solid #d84315;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 5px;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .amount.largest {
+            border-width: 4px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
@@ -161,7 +177,7 @@
             <h3>支払い金額の調整後:</h3>
             
             <!-- 集金額と残額の表示 -->
-            <div class="results" v-if="showResults" :class="{ 'show': showResults }">
+            <div class="results" :class="{ 'show': showResults }">
                 <div>
                     <p class="underline">集金額: {{ collectedAmount }} 円</p>
                     <p class="underline">残額: {{ remainingAmount }} 円</p>
@@ -173,7 +189,9 @@
             </ul>
             <ul v-else>
                 <li v-for="(person, index) in people" :key="index">
-                    {{ person.name }}: {{ person.finalAmount }} 円
+                    <div class="amount-container">
+                        <div :class="{ 'amount': true, 'largest': isLargestPerson(person) }">{{ person.finalAmount }} 円</div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -256,6 +274,15 @@
                         this.showResults = true;
                     } else {
                         alert('合計金額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
+                    }
+                },
+                isLargestPerson(person) {
+                    // 最大の金額を持つ人かどうかを判定
+                    if (this.people.length > 1) {
+                        let maxAmount = Math.max(...this.people.map(p => p.finalAmount));
+                        return person.finalAmount === maxAmount;
+                    } else {
+                        return false;
                     }
                 }
             }
