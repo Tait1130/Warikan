@@ -104,29 +104,6 @@
         .underline {
             text-decoration: underline;
         }
-        .amount-container {
-            display: flex;
-            justify-content: center;
-        }
-        .amount {
-            border: 2px solid #d84315;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 5px;
-            font-weight: bold;
-            text-align: center;
-            flex-grow: 1;
-        }
-        .amount.largest {
-            border-width: 4px;
-        }
-        .participant-label {
-            background-color: yellow;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 5px;
-            display: block;
-        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
@@ -158,7 +135,7 @@
 
         <!-- 各参加者の入力フォーム -->
         <div v-for="(person, index) in people" :key="index" class="input-container">
-            <label :style="{ width: personMultiplierWidth(person) }" class="participant-label">参加者{{ index + 1 }}</label>
+            <label>参加者{{ index + 1 }}:</label>
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
             <template v-if="slopeMode !== 'manliness'">
                 <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0" @change="handlePositiveInputCopy($event, person, 0)">
@@ -184,7 +161,7 @@
             <h3>支払い金額の調整後:</h3>
             
             <!-- 集金額と残額の表示 -->
-            <div class="results" :class="{ 'show': showResults }">
+            <div class="results" v-if="showResults" :class="{ 'show': showResults }">
                 <div>
                     <p class="underline">集金額: {{ collectedAmount }} 円</p>
                     <p class="underline">残額: {{ remainingAmount }} 円</p>
@@ -196,9 +173,7 @@
             </ul>
             <ul v-else>
                 <li v-for="(person, index) in people" :key="index">
-                    <div class="amount-container">
-                        <div :class="{ 'amount': true, 'largest': isLargestPerson(person) }">{{ person.finalAmount }} 円</div>
-                    </div>
+                    {{ person.name }}: {{ person.finalAmount }} 円
                 </li>
             </ul>
         </div>
@@ -281,24 +256,6 @@
                         this.showResults = true;
                     } else {
                         alert('合計金額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
-                    }
-                },
-                isLargestPerson(person) {
-                    // 最大の金額を持つ人かどうかを判定
-                    if (this.people.length > 1) {
-                        let maxAmount = Math.max(...this.people.map(p => p.finalAmount));
-                        return person.finalAmount === maxAmount;
-                    } else {
-                        return false;
-                    }
-                },
-                personMultiplierWidth(person) {
-                    // 参加者の傾斜率に応じてラベルの幅を計算
-                    if (this.slopeMode !== 'manliness') {
-                        let maxWidthPercentage = Math.max(...this.people.map(p => p.multiplier));
-                        return (person.multiplier / maxWidthPercentage) * 100 + '%';
-                    } else {
-                        return '100%';
                     }
                 }
             }
