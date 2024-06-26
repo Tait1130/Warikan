@@ -98,6 +98,10 @@
             border-top: 2px solid #d84315;
             border-bottom: 2px solid #d84315;
             text-align: center;
+            display: none;
+        }
+        .results.show {
+            display: block;
         }
         .underline {
             text-decoration: underline;
@@ -110,8 +114,8 @@
         <h2>傾斜付き割り勘計算</h2>
 
         <!-- 集金額と残額の表示 -->
-        <div class="results">
-            <div v-if="showResults">
+        <div class="results" v-if="showResults" :class="{ 'show': showResults }">
+            <div>
                 <p class="underline">集金額: {{ collectedAmount }} 円</p>
                 <p class="underline">残額: {{ remainingAmount }} 円</p>
             </div>
