@@ -101,13 +101,13 @@
         <!-- 合計金額の入力 -->
         <div class="input-container">
             <label>合計金額:</label>
-            <input type="number" v-model.number="total" placeholder="合計金額を入力">
+            <input type="number" v-model.number="total" placeholder="合計金額を入力"　 min="0">
         </div>
 
         <!-- 分割金額の最小単位の入力 -->
         <div class="input-container">
-            <label>最小単位:</label>
-            <input type="number" v-model.number="minUnit" placeholder="最小単位を入力">
+            <label>分割金額の最小単位:</label>
+            <input type="number" v-model.number="minUnit" placeholder="最小単位を入力"　 min="1">
         </div>
 
         <!-- 傾斜モードの選択 -->
@@ -125,13 +125,14 @@
             <label>参加者{{ index + 1 }}:</label>
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
             <template v-if="slopeMode !== 'manliness'">
-                <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率">
+                <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0">
                 <select v-else-if="slopeMode === 'five-scale'" v-model="person.multiplier">
-                    <option :value="1">通常</option>
                     <option :value="0.5">半分</option>
-                    <option :value="2">倍</option>
-                    <option :value="0.8">20%減</option>
-                    <option :value="1.2">20%増</option>
+                    <option :value="0.5">0.8倍</option>
+                    <option :value="1">通常</option>
+                    <option :value="1.2">1.2倍</option>
+                    <option :value="1.5">1.5倍</option>
+                    <option :value="2">2倍</option>
                 </select>
             </template>
             <button @click="removePersonForm(index)">削除</button>
