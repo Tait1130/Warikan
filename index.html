@@ -186,7 +186,7 @@
                     this.people.splice(index, 1);
                 },
                 handlePositiveInput(event, field, min) {
-                    if (event.target.value < 0) {
+                    if (event.target.value < min) {
                         event.target.value = min; // マイナス値はminにリセット
                         this[field] = min; // データバインディングもクリアする（任意の場合）
                     }
