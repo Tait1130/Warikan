@@ -192,9 +192,8 @@
                     }
                 },
                 handlePositiveInputCopy(event, index, field, min) {
-                    let value = this.people[index][field];
-                    if (value < min) {
-                        // 最小値未満の場合は最小値に設定
+                    if (event.target.value < min) {
+                        event.target.value = min;
                         this.$set(this.people[index], field, min);
                     }
                 },
