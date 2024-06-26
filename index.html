@@ -125,7 +125,7 @@
             <label>参加者{{ index + 1 }}:</label>
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
             <template v-if="slopeMode !== 'manliness'">
-                <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0"　@change="handlePositiveInputCopy($event, index, 'personMultiplier', 0)">
+                <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0"　@change="handlePositiveInputCopy($event,'multiplier', 0)">
                 <select v-else-if="slopeMode === 'five-scale'" v-model="person.multiplier">
                     <option :value="2">倍</option>
                     <option :value="1.2">20%増</option>
@@ -191,9 +191,10 @@
                         this[field] = min; // データバインディングもクリアする（任意の場合）
                     }
                 },
-                handlePositiveInputCopy(event, index, field, min) {
+                handlePositiveInputCopy(event, field, min) {
                     if (event.target.value < min) {
-                        this.$set(this.people[index], field, min);
+                        event.target.value = min; // マイナス値はminにリセット
+                        this.person[field] = min; // データバインディングもクリアする（任意の場合）
                     }
                 },
                 calculateShares() {
