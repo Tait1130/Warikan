@@ -189,10 +189,16 @@
                             // 通常の割り勘を計算
                             const normalAmountPerPerson = this.total / numberOfPeople;
 
+ // 傾斜の合計
+const multiplerSum = 0;
+                            this.people.forEach(person => {
+                                multiplerSum += person.multiplier;
+                            });
+
                             // 傾斜を適用した金額を計算
                             this.people.forEach(person => {
                                 person.amount = normalAmountPerPerson;
-                                person.finalAmount = person.amount * person.multiplier;
+                                person.finalAmount = person.amount * (person.multiplier/multiplerSum);
                             });
                         }
 
