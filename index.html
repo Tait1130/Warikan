@@ -185,11 +185,10 @@
                 removePersonForm(index) {
                     this.people.splice(index, 1);
                 },
-                methods: {
-                    handlePositiveInput(event, field, minValue) {
-                        if (event.target.value < 0) {
-                            event.target.value = resetValue; // マイナス値はminにリセット
-                            this[field] = null; // データバインディングもクリアする（任意の場合）
+                handlePositiveInput(event, field, minValue) {
+                    if (event.target.value < 0) {
+                        event.target.value = resetValue; // マイナス値はminにリセット
+                        this[field] = null; // データバインディングもクリアする（任意の場合）
                     }
                 },
                 calculateShares() {
