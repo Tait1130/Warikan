@@ -302,7 +302,7 @@
                     if (this.slopeMode === 'manliness') {
                         resultsText += `${this.people[this.manlyIndex].name}: ${this.total} 円 (全額)\n`;
                     } else {
-                        resultsText += `\n集金額: ${this.collectedAmount} 円\n残額: ${this.remainingAmount} 円\n`;
+                        resultsText += `集金額: ${this.collectedAmount} 円\n残額: ${this.remainingAmount} 円\n\n`;
                         this.people.forEach(person => {
                             resultsText += `${person.name}: ${person.finalAmount} 円\n`;
                         });
