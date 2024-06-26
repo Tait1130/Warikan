@@ -121,11 +121,11 @@
             <template v-if="slopeMode !== 'manliness'">
                 <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率">
                 <select v-else-if="slopeMode === 'five-scale'" v-model="person.multiplier">
-                    <option value=1>通常</option>
-                    <option value=0.5>半分</option>
-                    <option value=2>倍</option>
-                    <option value=0.8>20%減</option>
-                    <option value=1.2>20%増</option>
+                    <option :value="1">通常</option>
+                    <option :value="0.5">半分</option>
+                    <option :value="2">倍</option>
+                    <option :value="0.8">20%減</option>
+                    <option :value="1.2">20%増</option>
                 </select>
             </template>
             <button @click="removePersonForm(index)">削除</button>
