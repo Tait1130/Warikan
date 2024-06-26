@@ -159,6 +159,15 @@
         <!-- 結果表示 -->
         <div v-if="showResults">
             <h3>支払い金額の調整後:</h3>
+            
+            <!-- 集金額と残額の表示 -->
+            <div class="results" >
+                <div>
+                    <p class="underline">集金額: {{ collectedAmount }} 円</p>
+                    <p class="underline">残額: {{ remainingAmount }} 円</p>
+                </div>
+            </div>
+            
             <ul v-if="slopeMode === 'manliness'">
                 <li>{{ people[manlyIndex].name }}: {{ total }} 円 (全額)</li>
             </ul>
@@ -169,13 +178,7 @@
             </ul>
         </div>
         
-        <!-- 集金額と残額の表示 -->
-        <div class="results" v-if="showResults" :class="{ 'show': showResults }">
-            <div>
-                <p class="underline">集金額: {{ collectedAmount }} 円</p>
-                <p class="underline">残額: {{ remainingAmount }} 円</p>
-            </div>
-        </div>
+
         
     </div>
 
