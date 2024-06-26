@@ -161,7 +161,7 @@
             <h3>支払い金額の調整後:</h3>
             
             <!-- 集金額と残額の表示 -->
-            <div class="results" >
+            <div class="results" v-if="showResults" :class="{ 'show': showResults }">
                 <div>
                     <p class="underline">集金額: {{ collectedAmount }} 円</p>
                     <p class="underline">残額: {{ remainingAmount }} 円</p>
