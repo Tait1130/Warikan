@@ -210,7 +210,7 @@
                             // 傾斜を適用した金額を計算
                             this.people.forEach(person => {
                                 person.amount = normalAmountPerPerson;
-                                person.finalAmount = Math.round(person.amount * person.multiplier * (this.people.length / multiplierSum) / this.minUnit) * this.minUnit;
+                                person.finalAmount = Math.floor(person.amount * person.multiplier * (this.people.length / multiplierSum) / this.minUnit) * this.minUnit;
                                 this.collectedAmount += person.finalAmount;
                             });
 
