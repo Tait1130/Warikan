@@ -10,9 +10,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            /*background-color: #fff3e0;*/
             background-color: #ebe3dd;
-            /*background-image: url('./tileable-wood--colored--1920x1080--diet.png');*/
             color: #5d4037;
             margin: 0;
             padding: 0;
@@ -29,7 +27,7 @@
             max-width: 600px;
             max-height: 700px;
             width: 100%;
-            overflow: scroll; /* bodyだと見切れるためapp内のスクロール */
+            overflow: scroll;
         }
         h2 {
             text-align: center;
@@ -43,8 +41,8 @@
             display: flex;
             align-items: center;
             margin-bottom: 8px;
-            font-size: 1.05em; /* 文字サイズを上げる */
-            align-items: center; /* 中央揃え */
+            font-size: 1.05em;
+            align-items: center;
         }
         .input-container label {
             flex: 1 0 80px;
@@ -52,27 +50,38 @@
             font-weight: bold;
         }
         .input-container input[type="text"],
-        .input-container input[type="number"],
+        .input-container input[type="number"]{
+            flex: 1 0 30%;
+            margin-bottom: 8px;
+            margin-right: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            max-width: 25%;
+            font-size: 1.05em;
+        }
+
         .input-container select {
             flex: 1 0 30%;
             margin-bottom: 8px;
             margin-right: 5px;
-            padding: 8px; /* パディングを調整 */
+            padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            max-width: 36%;
-            font-size: 1.05em; /* 文字サイズを上げる */
+            max-width: 28%;
+            font-size: 1.05em;
         }
+
         .input-container button {
             margin-left: 8px;
             margin-bottom: 8px;
-            padding: 8px 12px; /* パディングを調整 */
+            padding: 8px 12px;
             background-color: #d84315;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1.05em; /* 文字サイズを上げる */
+            font-size: 1.05em;
         }
         .input-container button:hover {
             background-color: #bf360c;
@@ -80,17 +89,17 @@
         .button-container {
             margin-top: 10px;
             text-align: center;
-            font-size: 1.05em; /* 文字サイズを上げる */
+            font-size: 1.05em;
         }
         .button-container button {
             margin-right: 10px;
-            padding: 12px 24px; /* パディングを調整 */
+            padding: 12px 24px;
             background-color: #d84315;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1.05em; /* 文字サイズを上げる */
+            font-size: 1.05em;
         }
         .button-container button:hover {
             background-color: #bf360c;
@@ -98,12 +107,12 @@
         ul {
             padding: 0;
             list-style-type: none;
-            font-size: 1.1em; /* 文字サイズを上げる */
+            font-size: 1.1em;
         }
         ul li {
             background-color: #ffeecd;
             margin-bottom: 5px;
-            padding: 12px; /* パディングを調整 */
+            padding: 12px;
             border-radius: 4px;
         }
         .results {
@@ -112,7 +121,7 @@
             background-color: #ffeecd;
             text-align: center;
             display: none;
-            font-size: 1.1em; /* 文字サイズを上げる */
+            font-size: 1.1em;
         }
         .results.show {
             display: block;
@@ -129,7 +138,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 1.05em;
-            display: block; /* ブロック要素にして中央揃えを可能にする */
+            display: block;
             margin-left: auto;
             margin-right: auto;
         }
@@ -141,7 +150,7 @@
 <body>
     <div id="app">
         <h2>傾斜付き割り勘計算</h2>
-        
+
         <!-- 合計金額の入力 -->
         <div class="input-container">
             <label>合計金額:</label>
@@ -152,6 +161,16 @@
         <div class="input-container">
             <label>分割金額の最小単位:</label>
             <input type="number" v-model.number="minUnit" placeholder="最小単位を入力" min="1" @change="handlePositiveInput($event, 'minUnit', 1)">
+        </div>
+
+        <!-- 分割金額の最小単位の処理方法を選択 -->
+        <div class="input-container">
+            <label>最小単位の処理方法:</label>
+            <select v-model="roundingMode">
+                <option value="ceil">切り上げる</option>
+                <option value="round">四捨五入する</option>
+                <option value="floor">切り捨てる</option>
+            </select>
         </div>
 
         <!-- 傾斜モードの選択 -->
@@ -166,7 +185,12 @@
         <!-- 各参加者の入力フォーム -->
         <div v-for="(person, index) in people" :key="index" class="input-container">
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
-            <template v-if="slopeMode !== 'manliness'">
+            <select v-model="person.useSpecifiedAmount">
+                <option value="true">固定金額</option>
+                <option value="false">傾斜</option>
+            </select>
+            <input type="number" v-if="person.useSpecifiedAmount === 'true'" v-model.number="person.specifiedAmount" placeholder="固定金額を入力" min="0"  @change="handlePositiveInputCopy2($event, person)">
+            <template v-else>
                 <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0" @change="handlePositiveInputCopy($event, person, 0)">
                 <select v-else-if="slopeMode === 'five-scale'" v-model="person.multiplier">
                     <option :value="2">倍</option>
@@ -188,15 +212,15 @@
         <!-- 結果表示 -->
         <div v-if="showResults">
             <h3>▼支払い金額の調整結果▼</h3>
-            
+
             <!-- 集金額と残額の表示 -->
             <div class="results" v-if="showResults" :class="{ 'show': showResults }">
                 <div>
                     <p class="underline">集金額: {{ collectedAmount }} 円</p>
-                    <p class="underline">残額: {{ remainingAmount }} 円</p>
+                    <p class="underline">{{ remainingOrChange }} 円</p>
                 </div>
             </div>
-            
+
             <ul v-if="slopeMode === 'manliness'">
                 <li>{{ people[manlyIndex].name }}: {{ total }} 円 (全額)</li>
             </ul>
@@ -208,13 +232,10 @@
 
             <button class="copy-button" @click="copyResults">結果をコピーする</button>
         </div>
-        
-
-        
     </div>
 
     <script>
-            // service workerの登録関係
+        // service workerの登録関係
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service_worker.js').then(function(registration) {
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
@@ -222,27 +243,39 @@
                 console.log('ServiceWorker registration failed: ', err);
             });
         }
-        
+
         new Vue({
             el: '#app',
             data: {
                 total: null,
-                minUnit: 1, // 初期値は1円
+                minUnit: 1,
                 people: [
-                    { name: '参加者1', multiplier: 1 },
-                    { name: '参加者2', multiplier: 1 }
+                    { name: '参加者1', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null },
+                    { name: '参加者2', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null }
                 ],
+                slopeMode: 'five-scale',
+                manlyIndex: 0,
                 showResults: false,
-                slopeMode: 'five-scale', // 初期値は五段階選択
-                manlyIndex: 0, // 男気型で全額支払う人のインデックス
-                collectedAmount: 0, // 集金額
-                remainingAmount: 0 // 残額
+                collectedAmount: 0,
+                remainingAmount: 0,
+                roundingMode: 'round'
+            },
+            computed: {
+                remainingOrChange() {
+                    if (this.remainingAmount >= 0) {
+                        return `残額: ${this.remainingAmount}`;
+                    } else {
+                        return `おつり: ${-this.remainingAmount}`;
+                    }
+                }
             },
             methods: {
                 addPersonForm() {
                     this.people.push({
                         name: '参加者' + (this.people.length + 1),
-                        multiplier: 1
+                        useSpecifiedAmount: 'false',
+                        multiplier: 1,
+                        specifiedAmount: null
                     });
                 },
                 removePersonForm(index) {
@@ -250,52 +283,99 @@
                 },
                 handlePositiveInput(event, field, min) {
                     if (event.target.value < min) {
-                        event.target.value = min; // マイナス値はminにリセット
-                        this[field] = min; // データバインディングもクリアする（任意の場合）
+                        event.target.value = min;
+                        this[field] = min;
                     }
                 },
                 handlePositiveInputCopy(event, person, min) {
                     if (event.target.value < min) {
-                        event.target.value = min; // マイナス値はminにリセット
+                        event.target.value = min;
                         this.$set(person, 'multiplier', min);
                     }
                 },
+                handlePositiveInputCopy2(event, person) {
+                    const maxAmount = this.total; // 合計金額を上限とする
+
+                    if (event.target.value < 0) {
+                        event.target.value = 0;
+                        this.$set(person, 'specifiedAmount', 0);
+                    } else if (event.target.value > maxAmount) {
+                        event.target.value = maxAmount;
+                        this.$set(person, 'specifiedAmount', maxAmount);
+                    } else {
+                        this.$set(person, 'specifiedAmount', event.target.value);
+                    }
+              },
                 calculateShares() {
                     if (this.total && this.people.length > 0) {
-                        // 人数を更新
-                        const numberOfPeople = this.people.length;
 
-                        // 初期化
+                      // 空欄チェック
+                      const hasEmptyFields = this.people.some(person => person.useSpecifiedAmount === 'true' && person.specifiedAmount === null);
+                      if (hasEmptyFields) {
+                          alert('固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。');
+                          return;
+                      }
+
+
+                        const numberOfPeople = this.people.length;
                         this.showResults = false;
                         this.collectedAmount = 0;
 
+                        /* 傾斜計算の該当者をカウント */
+                        let numberOfMultiplierPeople = numberOfPeople;
+                        this.people.forEach(person => {
+                            if (person.useSpecifiedAmount === 'true' && person.specifiedAmount !== null) {
+                                 /* 傾斜計算の該当者をカウントダウン */
+                                numberOfMultiplierPeople--;
+                            }
+                        });
+
                         if (this.slopeMode === 'manliness') {
-                            // 男気型の場合、ランダムに選ばれた1人が全額を支払う
                             this.manlyIndex = Math.floor(Math.random() * numberOfPeople);
                         } else {
-                            // 通常の割り勘を計算
-                            const normalAmountPerPerson = this.total / numberOfPeople;
-
-                            // 傾斜の合計
                             let multiplierSum = 0;
+                            let totalSpecifiedAmount = 0;
+
                             this.people.forEach(person => {
-                                multiplierSum += person.multiplier;
+                                if (person.useSpecifiedAmount === 'true' && person.specifiedAmount !== null) {
+                                    totalSpecifiedAmount += person.specifiedAmount;
+                                } else {
+                                    multiplierSum += person.multiplier;
+                                }
                             });
 
-                            // 傾斜を適用した金額を計算
+                            const remainingAmountForUnspecified = this.total - totalSpecifiedAmount;
+                            const normalAmountPerPerson = remainingAmountForUnspecified / numberOfMultiplierPeople;
+
                             this.people.forEach(person => {
-                                person.amount = normalAmountPerPerson;
-                                person.finalAmount = Math.floor(person.amount * person.multiplier * (this.people.length / multiplierSum) / this.minUnit) * this.minUnit;
+                                if (person.useSpecifiedAmount === 'true' && person.specifiedAmount !== null) {
+                                    person.finalAmount = person.specifiedAmount;
+                                } else {
+                                    person.amount = normalAmountPerPerson;
+                                    // person.finalAmount = Math.floor(person.amount * person.multiplier * (numberOfMultiplierPeople / multiplierSum) / this.minUnit) * this.minUnit;
+
+                                    let calculatedAmount = person.amount * person.multiplier * (numberOfMultiplierPeople / multiplierSum);
+
+                                    // 最小単位での処理
+                                    if (this.roundingMode === 'ceil') {
+                                        calculatedAmount = Math.ceil(calculatedAmount / this.minUnit) * this.minUnit;
+                                    } else if (this.roundingMode === 'floor') {
+                                        calculatedAmount = Math.floor(calculatedAmount / this.minUnit) * this.minUnit;
+                                    } else if (this.roundingMode === 'round') {
+                                        calculatedAmount = Math.round(calculatedAmount / this.minUnit) * this.minUnit;
+                                    }
+
+                                    person.finalAmount = calculatedAmount;
+                                }
                                 this.collectedAmount += person.finalAmount;
                             });
 
-                            // 残額を計算
                             this.remainingAmount = this.total - this.collectedAmount;
                         }
 
                         this.showResults = true;
                     } else {
-                        /* alert('合計金額を入力し、少なくとも1人の名前と傾斜率を入力してください。');*/
+                        alert('合計金額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
                     }
                 },
                 copyResults() {
@@ -304,11 +384,17 @@
                     if (this.slopeMode === 'manliness') {
                         resultsText += `${this.people[this.manlyIndex].name}: ${this.total} 円 (全額)\n`;
                     } else {
-                        resultsText += `集金額: ${this.collectedAmount} 円\n残額: ${this.remainingAmount} 円\n\n`;
+                        resultsText += `集金額: ${this.collectedAmount} 円\n`;
+
+                        if (this.remainingAmount >= 0) {
+                            resultsText += `残額: ${this.remainingAmount} 円\n\n`;
+                        } else {
+                            resultsText += `おつり: ${-this.remainingAmount} 円\n\n`;
+                        }
+
                         this.people.forEach(person => {
                             resultsText += `${person.name}: ${person.finalAmount} 円\n`;
                         });
-                        
                     }
 
                     const textArea = document.createElement('textarea');
