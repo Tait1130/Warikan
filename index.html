@@ -67,7 +67,7 @@
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            max-width: 36%;
+            max-width: 40%;
             font-size: 1.05em;
         }
         .input-container2 {
@@ -84,7 +84,7 @@
         }
         .input-container2 input[type="text"],
         .input-container2 input[type="number"]{
-            flex: 1 0 30%;
+            flex: 1 0 25%;
             margin-bottom: 8px;
             margin-right: 5px;
             padding: 8px;
@@ -216,7 +216,7 @@
         </div>
 
         <!-- 各参加者の入力フォーム -->
-        <div v-for="(person, index) in people" :key="index" class="input-container">
+        <div v-for="(person, index) in people" :key="index" class="input-container2">
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
             <select v-model="person.useSpecifiedAmount">
                 <option value="true">固定額</option>
