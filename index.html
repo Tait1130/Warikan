@@ -193,7 +193,7 @@
             <input type="number" v-model.number="total" placeholder="金額を入力" min="0" @change="handlePositiveInput($event, 'total', 0)">
         </div>
 
-        <h4>◀︎調整設定▶︎</h4>
+        <h4>調整設定</h4>
 
         <!-- 分割金額の最小単位の入力 -->
         <div class="input-container">
@@ -220,7 +220,7 @@
             </select>
         </div>
 
-        <h4>◀︎参加者リスト▶︎</h4>
+        <h4>参加者リスト</h4>
 
         <!-- 各参加者の入力フォーム -->
         <div v-for="(person, index) in people" :key="index" class="input-container2">
