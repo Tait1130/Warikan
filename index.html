@@ -215,6 +215,8 @@
             </select>
         </div>
 
+        <h3>参加者入力フォーム</h3>
+
         <!-- 各参加者の入力フォーム -->
         <div v-for="(person, index) in people" :key="index" class="input-container2">
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
