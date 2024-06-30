@@ -400,7 +400,7 @@
 
                                     person.finalAmount = calculatedAmount;
                                 }
-                                this.collectedAmount += person.finalAmount;
+                                this.collectedAmount += Number(person.finalAmount);
                             });
 
                             this.remainingAmount = this.total - this.collectedAmount;
