@@ -187,7 +187,7 @@
         <!-- 合計金額の入力 -->
         <div class="input-container">
             <label>合計金額:</label>
-            <input type="number" v-model.number="total" placeholder="合計金額を入力" min="0" @change="handlePositiveInput($event, 'total', 0)">
+            <input type="number" v-model.number="total" placeholder="金額を入力" min="0" @change="handlePositiveInput($event, 'total', 0)">
         </div>
 
         <!-- 分割金額の最小単位の入力 -->
@@ -222,7 +222,7 @@
                 <option value="true">固定</option>
                 <option value="false">傾斜</option>
             </select>
-            <input type="number" v-if="person.useSpecifiedAmount === 'true'" v-model.number="person.specifiedAmount" placeholder="固定額を入力" min="0"  @change="handlePositiveInputCopy2($event, person)">
+            <input type="number" v-if="person.useSpecifiedAmount === 'true'" v-model.number="person.specifiedAmount" placeholder="金額を入力" min="0"  @change="handlePositiveInputCopy2($event, person)">
             <template v-else>
                 <input type="number" v-if="slopeMode === 'numeric'" v-model.number="person.multiplier" placeholder="傾斜率" min="0" @change="handlePositiveInputCopy($event, person, 0)">
                 <select v-else-if="slopeMode === 'five-scale'" v-model="person.multiplier">
