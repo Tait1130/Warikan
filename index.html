@@ -101,7 +101,7 @@
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            max-width: 25%;
+            max-width: 20%;
             font-size: 1.05em;
         }
 
@@ -219,7 +219,7 @@
         <div v-for="(person, index) in people" :key="index" class="input-container2">
             <input type="text" v-model="person.name" :placeholder="'参加者' + (index + 1)">
             <select v-model="person.useSpecifiedAmount">
-                <option value="true">固定額</option>
+                <option value="true">固定</option>
                 <option value="false">傾斜</option>
             </select>
             <input type="number" v-if="person.useSpecifiedAmount === 'true'" v-model.number="person.specifiedAmount" placeholder="固定額を入力" min="0"  @change="handlePositiveInputCopy2($event, person)">
