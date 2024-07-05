@@ -353,7 +353,20 @@
                           alert('固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。');
                           return;
                       }
+                        
+                      // 全参加者の固定額の和を計算
+                      let totalSpecifiedAmount = 0;
+                      this.people.forEach(person => {
+                          if (person.useSpecifiedAmount === 'true' && person.specifiedAmount) {
+                              totalSpecifiedAmount += person.specifiedAmount;
+                          }
+                      });
 
+                      // 全参加者の固定額の和が合計金額を上回った場合のアラート
+                      if (totalSpecifiedAmount > this.total) {
+                          alert('全参加者の固定金額の合計が合計金額を上回っています。再入力してください。');
+                          return;
+                      }
 
                         const numberOfPeople = this.people.length;
                         this.showResults = false;
