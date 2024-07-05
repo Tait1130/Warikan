@@ -362,7 +362,7 @@
                       // 空欄チェック
                       const hasEmptyFields = this.people.some(person => person.useSpecifiedAmount === 'true' && person.specifiedAmount === null);
                       if (hasEmptyFields) {
-                          //alert('固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。');
+                          //alert("",'固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。',"warning");
                             if (!this.tota) {
                                   swal("固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。")
                             }
@@ -381,7 +381,7 @@
                       if (totalSpecifiedAmount > this.total) {
                           //alert('全参加者の固定金額の和が合計金額を上回っています。再入力してください。');
                             if (!this.tota) {
-                                  swal("全参加者の固定金額の和が合計金額を上回っています。再入力してください。")
+                                  swal("","全参加者の固定金額の和が合計金額を上回っています。再入力してください。","warning")
                             }
                           return;
                       }
