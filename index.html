@@ -342,8 +342,6 @@
                     } else if (event.target.value > maxAmount) {
                         event.target.value = maxAmount;
                         this.$set(person, 'specifiedAmount', maxAmount);
-                    } else {
-                        this.$set(person, 'specifiedAmount', event.target.value);
                     }
               },
                 calculateShares() {
