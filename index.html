@@ -451,7 +451,8 @@
                     }
                 },
                 copyResults() {
-                    let resultsText = `合計金額: ${this.total} 円\n\n`;
+                    let resultsText = `合計金額: ${this.total} 円\n`;
+                    resultsText += `--------------------\n`;
 
                     if (this.slopeMode === 'manliness') {
                         resultsText += `${this.people[this.manlyIndex].name}: ${this.total} 円 (全額)\n`;
@@ -459,10 +460,11 @@
                         resultsText += `集金額: ${this.collectedAmount} 円\n`;
 
                         if (this.remainingAmount >= 0) {
-                            resultsText += `残額: ${this.remainingAmount} 円\n\n`;
+                            resultsText += `残額: ${this.remainingAmount} 円\n`;
                         } else {
-                            resultsText += `おつり: ${-this.remainingAmount} 円\n\n`;
+                            resultsText += `おつり: ${-this.remainingAmount} 円\n`;
                         }
+                        resultsText += `--------------------\n`;
 
                         this.people.forEach(person => {
                             resultsText += `${person.name}: ${person.finalAmount} 円\n`;
