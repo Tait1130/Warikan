@@ -201,7 +201,7 @@
 
         <!-- 合計金額の入力 -->
         <div class="input-container">
-            <label>合計金額:</label>
+            <label>支払い総額:</label>
             <input type="number" v-model.number="total" placeholder="金額を入力" min="0" @change="handlePositiveInput($event, 'total', 0)">
         </div>
 
@@ -269,7 +269,7 @@
             <div class="results" v-if="showResults" :class="{ 'show': showResults }">
                 <div>
                     <p class="underline">集金額: {{ collectedAmount }} 円</p>
-                    <p class="underline">{{ remainingOrChange }} 円</p>
+                    <p class="underline">{{ remainingOrChange }}</p>
                 </div>
             </div>
 
@@ -314,10 +314,10 @@
             },
             computed: {
                 remainingOrChange() {
-                    if (this.remainingAmount >= 0) {
-                        return `残額: ${this.remainingAmount}`;
-                    } else {
-                        return `おつり: ${-this.remainingAmount}`;
+                    if (this.remainingAmount > 0) {
+                        return `残額: ${this.remainingAmount} 円`;
+                    } else if (this.remainingAmount < 0) {
+                        return `おつり: ${-this.remainingAmount} 円`;
                     }
                 }
             },
@@ -451,7 +451,7 @@
                     }
                 },
                 copyResults() {
-                    let resultsText = `合計金額: ${this.total} 円\n`;
+                    let resultsText = `支払い総額: ${this.total} 円\n`;
                     resultsText += `--------------------\n`;
 
                     if (this.slopeMode === 'manliness') {
@@ -459,9 +459,9 @@
                     } else {
                         resultsText += `集金額: ${this.collectedAmount} 円\n`;
 
-                        if (this.remainingAmount >= 0) {
+                        if (this.remainingAmount > 0) {
                             resultsText += `残額: ${this.remainingAmount} 円\n`;
-                        } else {
+                        } else if (this.remainingAmount < 0) {
                             resultsText += `おつり: ${-this.remainingAmount} 円\n`;
                         }
                         resultsText += `--------------------\n`;
