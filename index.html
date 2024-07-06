@@ -268,17 +268,17 @@
             <!-- 集金額と残額の表示 -->
             <div class="results" v-if="showResults" :class="{ 'show': showResults }">
                 <div>
-                    <p class="underline">集金額: {{ collectedAmount.toLocaleString() }} 円</p>
+                    <p class="underline">集金額: {{ collectedAmount }} 円</p>
                     <p class="underline">{{ remainingOrChange }}</p>
                 </div>
             </div>
 
             <ul v-if="slopeMode === 'manliness'">
-                <li>{{ people[manlyIndex].name }}: {{ total.toLocaleString() }} 円 (全額)</li>
+                <li>{{ people[manlyIndex].name }}: {{ total }} 円 (全額)</li>
             </ul>
             <ul v-else>
                 <li v-for="(person, index) in people" :key="index">
-                    {{ person.name }}: {{ person.finalAmount.toLocaleString() }} 円
+                    {{ person.name }}: {{ person.finalAmount }} 円
                 </li>
             </ul>
 
