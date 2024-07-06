@@ -346,7 +346,7 @@
                     }
                 },
                 handlePositiveInputCopy2(event, person) {
-                    const maxAmount = this.total; // 合計金額を上限とする
+                    const maxAmount = this.total; // 支払い総額を上限とする
 
                     if (event.target.value < 0) {
                         event.target.value = 0;
@@ -362,12 +362,10 @@
                       // 空欄チェック
                       const hasEmptyFields = this.people.some(person => person.useSpecifiedAmount === 'true' && person.specifiedAmount === null);
                       if (hasEmptyFields) {
-                          //alert("",'固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。',"warning");
                             if (!this.tota) {
-                                //  swal("","固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。","warning")
                                 Swal.fire({
                                   icon:"warning",
-                                  text: "固定金額が空欄の参加者がいます。すべての参加者の指定金額を入力してください。",
+                                  text: "固定金額が空欄の参加者がいます。すべての参加者の固定金額を入力してください。",
                                   showConfirmButton: false
                                 });
                             }
@@ -382,14 +380,12 @@
                           }
                       });
 
-                      // 全参加者の固定額の和が合計金額を上回った場合のアラート
+                      // 全参加者の固定額の和が支払い総額を上回った場合のアラート
                       if (totalSpecifiedAmount > this.total) {
-                          //alert('全参加者の固定金額の和が合計金額を上回っています。再入力してください。');
                             if (!this.tota) {
-                                  //swal("","全参加者の固定金額の和が合計金額を上回っています。再入力してください。","warning")
                                 Swal.fire({
                                   icon:"warning",
-                                  text: "全参加者の固定金額の和が合計金額を上回っています。再入力してください。",
+                                  text: "全参加者の固定金額の合計が支払い総額を上回っています。再入力してください。",
                                   showConfirmButton: false
                                 });
                             }
@@ -454,11 +450,11 @@
 
                         this.showResults = true;
                     } else {
-                        //alert('合計金額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
+                        //alert('支払い総額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
                         if (!this.tota) {
                           Swal.fire({
                                icon:"warning",
-                               text: "合計金額を入力してください。",
+                               text: "支払い総額を入力してください。",
                                 showConfirmButton: false
                             });
                         }
