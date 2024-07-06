@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/sweetalert"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="logo_512x512.png" sizes="512x512">
@@ -457,7 +456,11 @@
                     } else {
                         //alert('合計金額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
                         if (!this.tota) {
-                          swal("","合計金額を入力してください。","warning")
+                          Swal.fire({
+                               icon:"warning",
+                               text: "合計金額を入力してください。",
+                                showConfirmButton: false
+                            });
                         }
                     }
                 },
