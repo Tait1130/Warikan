@@ -268,17 +268,17 @@
             <!-- 集金額と残額の表示 -->
             <div class="results" v-if="showResults" :class="{ 'show': showResults }">
                 <div>
-                    <p class="underline">集金額: {{ collectedAmount }} 円</p>
+                    <p class="underline">集金額: {{ collectedAmount.toLocaleString() }} 円</p>
                     <p class="underline">{{ remainingOrChange }}</p>
                 </div>
             </div>
 
             <ul v-if="slopeMode === 'manliness'">
-                <li>{{ people[manlyIndex].name }}: {{ total }} 円 (全額)</li>
+                <li>{{ people[manlyIndex].name }}: {{ total.toLocaleString() }} 円 (全額)</li>
             </ul>
             <ul v-else>
                 <li v-for="(person, index) in people" :key="index">
-                    {{ person.name }}: {{ person.finalAmount }} 円
+                    {{ person.name }}: {{ person.finalAmount.toLocaleString() }} 円
                 </li>
             </ul>
 
@@ -302,8 +302,8 @@
                 total: null,
                 minUnit: 1,
                 people: [
-                    { name: '参加者1', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null },
-                    { name: '参加者2', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null }
+                    { name: '参加者1', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null ,finalAmount: 0},
+                    { name: '参加者2', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null ,finalAmount: 0}
                 ],
                 slopeMode: 'five-scale',
                 manlyIndex: 0,
@@ -327,7 +327,8 @@
                         name: '参加者' + (this.people.length + 1),
                         useSpecifiedAmount: 'false',
                         multiplier: 1,
-                        specifiedAmount: null
+                        specifiedAmount: null,
+                        finalAmount: 0
                     });
                 },
                 removePersonForm(index) {
