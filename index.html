@@ -274,11 +274,11 @@
             </div>
 
             <ul v-if="slopeMode === 'manliness'">
-                <li>{{ people[manlyIndex].name }}: {{ total.toLocaleString() }} 円 (全額)</li>
+                <li>{{ people[manlyIndex].name }}: {{ total }} 円 (全額)</li>
             </ul>
             <ul v-else>
                 <li v-for="(person, index) in people" :key="index">
-                    {{ person.name }}: {{ person.finalAmount.toLocaleString() }} 円
+                    {{ person.name }}: {{ person.finalAmount }} 円
                 </li>
             </ul>
 
