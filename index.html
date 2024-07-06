@@ -452,15 +452,20 @@
                         this.savedPeople = [...this.people];
                         this.showResults = true;
                     } else {
-                        //alert('支払い総額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
+                        
                         if (!this.total) {
                           Swal.fire({
                                icon:"warning",
                                text: "支払い総額を入力してください。",
                                 showConfirmButton: false
                             });
+                        }else if(this.people.length > 0){
+                          Swal.fire({
+                               icon:"warning",
+                               text: "参加者を登録してください。",
+                                showConfirmButton: false
+                            }); 
                         }
-                    }
                 },
                 copyResults() {
                     let resultsText = `支払い総額: ${this.total.toLocaleString()} 円\n`;
@@ -491,7 +496,7 @@
                     document.body.removeChild(textArea);
                     Swal.fire({
                       icon:"success",
-                      text: "結果をコピーしました",
+                      text: "結果をコピーしました。",
                       showConfirmButton: false
                     });
                 }
