@@ -277,7 +277,7 @@
                 <li>{{ people[manlyIndex].name }}: {{ total.toLocaleString() }} 円 (全額)</li>
             </ul>
             <ul v-else>
-                <li v-for="(person, index) in people" :key="index">
+                <li v-for="(person, index) in savedPeople" :key="index">
                     {{ person.name }}: {{ person.finalAmount.toLocaleString() }} 円
                 </li>
             </ul>
@@ -305,6 +305,7 @@
                     { name: '参加者1', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null ,finalAmount: 0},
                     { name: '参加者2', useSpecifiedAmount: 'false', multiplier: 1, specifiedAmount: null ,finalAmount: 0}
                 ],
+                savedPeople: null,
                 slopeMode: 'five-scale',
                 manlyIndex: 0,
                 showResults: false,
@@ -448,7 +449,7 @@
 
                             this.remainingAmount = this.total - this.collectedAmount;
                         }
-
+                        this.savedPeople = [...this.people];
                         this.showResults = true;
                     } else {
                         //alert('支払い総額を入力し、少なくとも1人の名前と傾斜率を入力してください。');
