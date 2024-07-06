@@ -329,9 +329,11 @@
                         multiplier: 1,
                         specifiedAmount: null
                     });
+                    this.people = [...this.people];
                 },
                 removePersonForm(index) {
                     this.people.splice(index, 1);
+                    this.people = [...this.people];
                 },
                 handlePositiveInput(event, field, min) {
                     if (event.target.value < min) {
