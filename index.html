@@ -599,6 +599,20 @@
                     });
                 }
             }
+                
+            export default {
+              data() {
+                return {
+                  menuVisible: false
+                };
+              },
+              methods: {
+                toggleMenu() {
+                  this.menuVisible = !this.menuVisible;
+                }
+              }
+            };
+            
         });
     </script>
 </body>
