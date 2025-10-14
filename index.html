@@ -270,7 +270,7 @@
     
 </head>
 <body>
-    <header>
+    <header id="header">
         <div class="header-icon">
             <a href="index.html" class="home-link">
                 <img src="logo_512x512.png"> 
@@ -387,6 +387,18 @@
             });
         }
 
+         new Vue({
+            el: '#header',
+            data: {
+              menuVisible: false
+            },
+            methods: {
+              toggleMenu() {
+                this.menuVisible = !this.menuVisible;
+              }
+            }
+          });
+
         new Vue({
             el: '#app',
             data: {
@@ -402,8 +414,7 @@
                 showResults: false,
                 collectedAmount: 0,
                 remainingAmount: 0,
-                roundingMode: 'round',
-                menuVisible: false
+                roundingMode: 'round'
             },
             computed: {
                 remainingOrChange() {
@@ -415,9 +426,6 @@
                 }
             },
             methods: {
-                toggleMenu() {
-                  this.menuVisible = !this.menuVisible;
-                },
                 addPersonForm() {
                     this.people.push({
                         name: '参加者' + (this.people.length + 1),
