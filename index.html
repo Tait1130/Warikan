@@ -9,6 +9,40 @@
     <link rel="icon" type="image/png" href="logo_512x512.png" sizes="512x512">
     <title>傾斜付き割り勘 計算シート</title>
     <style>
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #ffffff;
+            color: #5d4037;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+        .header-icon {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .header-icon img {
+            height: 32px;
+            width: 32px;
+            margin-right: 10px;
+        }
+        .hamburger {
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #5d4037;
+        }
+        
         body {
             font-family: 'Arial', sans-serif;
             background-color: #ebe3dd;
@@ -194,8 +228,19 @@
             background-color: #bf360c;
         }
     </style>
+
+    
 </head>
 <body>
+    <header>
+        <div class="header-icon">
+            <img src="logo_512×512.png" alt="アイコン"> 
+        </div>
+        <button class="hamburger" aria-label="メニュー">
+            &#9776; <!-- ハンバーガーアイコン (≡) -->
+        </button>
+    </header>
+    
     <div id="app">
         <h2>傾斜付き割り勘 計算シート</h2>
 
