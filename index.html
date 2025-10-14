@@ -408,7 +408,8 @@
                 showResults: false,
                 collectedAmount: 0,
                 remainingAmount: 0,
-                roundingMode: 'round'
+                roundingMode: 'round',
+                menuVisible: false
             },
             computed: {
                 remainingOrChange() {
@@ -420,6 +421,9 @@
                 }
             },
             methods: {
+                toggleMenu() {
+                  this.menuVisible = !this.menuVisible;
+                }
                 addPersonForm() {
                     this.people.push({
                         name: '参加者' + (this.people.length + 1),
@@ -599,20 +603,6 @@
                     });
                 }
             }
-                
-            export default {
-              data() {
-                return {
-                  menuVisible: false
-                };
-              },
-              methods: {
-                toggleMenu() {
-                  this.menuVisible = !this.menuVisible;
-                }
-              }
-            };
-            
         });
     </script>
 </body>
